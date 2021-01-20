@@ -1,16 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { createAppContainer } from 'react-navigation'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, ToastAndroid } from 'react-native'
 import Header2 from "../components/Header2"
 import db from '../config'
 import firebase from 'firebase'
 
+
 export default class WriteStoryScreen extends React.Component {
 
-   
-    submitStory = async () => {
 
+    submitStory = async () => {
 
         db.collection("Author").doc("A-0001").update({
 
@@ -20,15 +18,14 @@ export default class WriteStoryScreen extends React.Component {
 
         db.collection("Story").doc('S-0003').update({
 
-         "Story": this.state.body
+            'Story': this.state.body
 
 
         })
 
         db.collection("Title").doc("T-0002").update({
 
-
-       'TitleOfStory': this.state.title
+            'TitleOfStory': this.state.title
 
         })
     }
@@ -37,69 +34,78 @@ export default class WriteStoryScreen extends React.Component {
         super()
 
         this.state = {
+
             author: '',
             title: '',
             body: ''
+
         }
     }
     render() {
         return (
 
-            <View>
+            <KeyboardAvoidingView behavior="padding" enabled>
+                <View>
+                    <Header2 />
 
-                <Header2 />
-                <TextInput
+                    <TextInput
 
-                    onChangeText={(text) => {
-                        //console.log(this.state.author)
-                        this.setState({
+                        onChangeText={(text) => {
+                            //console.log(this.state.author)
+                            this.setState({
 
-                            author: text
+                                author: text
 
-                        })
+                            })
+                        }}
 
-                    }}
+                        style={styles.textInputStyle}
+                        placeholder='Author'
+                    />
 
-                    style={styles.textInputStyle}
-                    placeholder='Author'
-                />
+                    <TextInput
 
-                <TextInput
+                        style={styles.textInputStyle}
+                        placeholder='Title'
 
-                    style={styles.textInputStyle}
-                    placeholder='Title'
+                        onChangeText={(text) => {
 
-                    onChangeText={(text) => {
+                            this.setState({
 
-                        this.setState({
+                                title: text
 
-                            title: text
+                            })
+                        }}
 
-                        })
-                    }}
+                    />
+                    <TextInput
 
-                />
-                <TextInput
+                        style={styles.textInputStyle2}
+                        placeholder='WriteStoryHere'
 
-                    style={styles.textInputStyle2}
-                    placeholder='WriteStoryHere'
+                        onChangeText={(text) => {
 
-                    onChangeText={(text) => {
+                            this.setState({
 
-                        this.setState({
+                                body: text
 
-                            body: text
+                            })
+                        }}
+                    />
 
-                        })
-                    }}
-                />
+                    <TouchableOpacity style={styles.submitButton} onPress={() => {
 
-                <TouchableOpacity style={{ borderWidth: 6, borderColor: 'lightgrey', height: 60, width: 300, borderRadius: 20, backgroundColor: 'grey', alignSelf: 'center', marginTop: 60 }} onPress={this.submitStory}>
+                        this.state.submitStory
+                        ToastAndroid.alert("StorySubmitted", ToastAndroid.long)
 
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 30, alignSelf: 'center', marginTop: 4 }}>Submit</Text>
+                    }}>
 
-                </TouchableOpacity>
-            </View>
+                        <Text style={styles.submitStory}>Submit</Text>
+
+                    </TouchableOpacity>
+
+                </View>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -122,5 +128,32 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 50,
         borderWidth: 3
+    },
+
+    SubmitButtonText: {
+
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 30,
+        alignSelf: 'center',
+        marginTop: 4
+
+
+    },
+
+    submitButton: {
+
+        borderWidth: 6,
+        borderColor: 'lightgrey',
+        height: 60,
+        width: 300,
+        borderRadius: 20,
+        backgroundColor: 'grey',
+        alignSelf: 'center',
+        marginTop: 60
+
+
+
+
     }
 })
