@@ -95,12 +95,12 @@ export default class WriteStoryScreen extends React.Component {
 
                     <TouchableOpacity style={styles.submitButton} onPress={() => {
 
-                        this.state.submitStory
-                        ToastAndroid.alert("StorySubmitted", ToastAndroid.long)
+                        this.submitStory()
+                        ToastAndroid.show("StorySubmitted", ToastAndroid.LONG)
 
                     }}>
 
-                        <Text style={styles.submitStory}>Submit</Text>
+                        <Text style={styles.SubmitButtonText}>Submit</Text>
 
                     </TouchableOpacity>
 
